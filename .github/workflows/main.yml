@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  # Specify your Python version
+          python-version: '3.12.6'  # Specify Python 3.12.6
 
       - name: Cache Python dependencies
         uses: actions/cache@v3
@@ -35,6 +35,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Nuitka
+        run: pip install nuitka  # Install Nuitka
+
       - name: Build with Nuitka
         run: |
           nuitka --standalone --onefile --remove-output main.py
@@ -45,12 +48,15 @@ jobs:
           mv main.dist/* release/
           rm -rf main.dist
 
+      - name: List release directory  # Debugging step
+        run: ls -la release
+
       - name: Generate changelog
         run: |
           echo "## Changelog" > CHANGELOG.md
           echo "" >> CHANGELOG.md
           echo "- Commit: ${{ github.sha }}" >> CHANGELOG.md
-          echo "- Build date: $(date)" >> CHANGELOG.md
+          echo "- Build date: $(date +'%Y-%m-%d %H:%M:%S')" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
           echo "### Changes" >> CHANGELOG.md
           echo "- Built executables for ${{ matrix.os }}" >> CHANGELOG.md
