@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 120  # Set the timeout to 120 minutes (2 hours)
     strategy:
       matrix:
-        os: [self-hosted, windows-latest]
+        os: [debian-latest, windows-latest]
 
     steps:
       - name: Checkout code
@@ -40,7 +40,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v0.1.0
-          release_name: Release v0.1.0
+          name: Release v0.1.0  # Change 'release_name' to 'name'
           body: |
             Binaries for version 0.1.0
         env:
