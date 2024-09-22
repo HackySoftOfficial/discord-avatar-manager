@@ -21,6 +21,17 @@ jobs:
         with:
           python-version: '3.8'  # Specify your Python version
 
+      - name: Cache Python dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pip
+            # You can also cache the virtual environment if you use one
+            # .venv
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -28,7 +39,7 @@ jobs:
 
       - name: Build with Nuitka
         run: |
-          nuitka --standalone --onefile main.py
+          nuitka --standalone --onefile --remove-output main.py
 
       - name: Prepare release artifacts
         run: |
