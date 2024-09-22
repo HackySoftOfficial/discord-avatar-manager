@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Checkout code
@@ -21,41 +21,38 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Poetry
+      - name: Install PyTorch
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+            pip install torch torchvision torchaudio
+          else
+            pip install torch==2.4.1 torchvision==0.15.1 torchaudio==2.0.1 --extra-index-url https://download.pytorch.org/whl/cu124
+          fi
 
-      - name: Install dependencies
+      - name: Install other dependencies
         run: |
-          poetry install  # Install all dependencies defined in pyproject.toml
+          python -m pip install --upgrade pip
+          pip install beautifulsoup4==4.12.3 colorama==0.4.6 diffusers==0.30.3 httpx==0.27.2 nodriver==0.37 pillow==10.4.0 psutil==6.0.0 PyQt6==6.7.1 PyQt6-sip==13.8.0 python-dotenv==1.0.1 sentry-sdk==2.14.0 Nuitka==2.4.8
 
       - name: Build with Nuitka
         run: |
-          poetry run nuitka --onefile main.py
+          nuitka --onefile main.py
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.0.0
-          release_name: Release v1.0.0
-          draft: false
-          prerelease: false
+          tag_name: v0.1.0
+          release_name: Release v0.1.0
+          body: |
+            Binaries for version 0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Binary
-        uses: actions/upload-release-asset@v1
+      - name: Upload binaries
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: main.bin
-          asset_name: main-${{ matrix.os }}.bin
-          asset_content_type: application/octet-stream
-
-      - name: Create Tag
-        run: |
-          git tag v1.0.0
-          git push origin v1.0.0
+          tag_name: v0.1.0
+          files: main.bin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
