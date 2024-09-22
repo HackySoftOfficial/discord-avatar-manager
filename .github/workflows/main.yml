@@ -32,7 +32,7 @@ jobs:
 
       - name: Build with Nuitka
         run: |
-          nuitka --onefile main.py
+          nuitka --onefile --enable-plugin=tk-inter --static-libpython=yes main.py
 
       - name: Create Release
         id: create_release
