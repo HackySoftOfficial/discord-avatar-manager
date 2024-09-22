@@ -36,7 +36,12 @@ jobs:
       # Install dependencies
       - name: Install Dependencies
         run: |
-          pip install -r requirements.txt -r requirements-dev.txt
+          pip install -r requirements.txt -r requirements.txt
+
+      # Install dependencies
+      - name: Install pytorch
+        run: |
+          pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 
       # Build python script into a stand-alone exe
       - uses: jimkring/python-script-to-exe@v0.2.0
