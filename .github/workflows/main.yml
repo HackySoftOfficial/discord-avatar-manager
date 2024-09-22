@@ -49,7 +49,7 @@ jobs:
           script-name: main
           onefile: true
           standalone: true
-          enable-plugins: pyside6
+          enable-plugins: pyside6, tk-inter
   
       # Uploads artifacts
       - name: "Upload Artifacts"
