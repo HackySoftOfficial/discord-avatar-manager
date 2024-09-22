@@ -22,7 +22,7 @@ jobs:
           python-version: '3.8'  # Specify your Python version
 
       - name: Cache Python dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/pip
@@ -56,7 +56,7 @@ jobs:
           echo "- Built executables for ${{ matrix.os }}" >> CHANGELOG.md
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}-executables
           path: release/*
