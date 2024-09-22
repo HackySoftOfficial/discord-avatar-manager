@@ -1,0 +1,3 @@
+2024-09-22 14:56:31,476 - INFO - Generating image for prompt: 'generate me an icecat'
+2024-09-22 14:56:42,385 - INFO - Image generated successfully for prompt: 'generate me an icecat'
+2024-09-22 14:56:44,121 - INFO - HTTP Request: PATCH https://discord.com/api/v9/users/@me "HTTP/1.1 400 Bad Request"

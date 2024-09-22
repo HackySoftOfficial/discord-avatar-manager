@@ -1,0 +1,12 @@
+beautifulsoup4==4.12.3
+colorama==0.4.6
+diffusers==0.30.3
+httpx==0.27.2
+nodriver==0.37
+Pillow==10.4.0
+psutil==6.0.0
+PyQt6==6.7.1
+PyQt6_sip==13.8.0
+python-dotenv==1.0.1
+sentry_sdk==2.14.0
+torch==2.4.1+cu124
