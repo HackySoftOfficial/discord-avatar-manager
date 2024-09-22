@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.12'  # Specify the Python version you need
+          python-version: '3.12'
 
       - name: Install Poetry
         run: |
@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install
+          poetry install  # Install all dependencies defined in pyproject.toml
 
       - name: Build with Nuitka
         run: |
@@ -38,7 +38,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: v1.0.0  # Change this to your desired versioning scheme
+          tag_name: v1.0.0
           release_name: Release v1.0.0
           draft: false
           prerelease: false
@@ -49,13 +49,13 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: main.bin  # Change this to the name of the generated binary
-          asset_name: main-${{ matrix.os }}.bin  # Name the asset based on the OS
+          asset_path: main.bin
+          asset_name: main-${{ matrix.os }}.bin
           asset_content_type: application/octet-stream
 
       - name: Create Tag
         run: |
-          git tag v1.0.0  # Change this to your desired versioning scheme
-          git push origin v1.0.0  # Push the tag to the remote repository
+          git tag v1.0.0
+          git push origin v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
