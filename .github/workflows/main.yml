@@ -2,8 +2,8 @@ name: Build and Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'  # Trigger on version tags
+    branches:
+      - main  # Change this to your default branch if it's not 'main'
 
 jobs:
   build:
@@ -26,8 +26,6 @@ jobs:
         with:
           path: |
             ~/.cache/pip
-            # You can also cache the virtual environment if you use one
-            # .venv
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
@@ -51,7 +49,7 @@ jobs:
         run: |
           echo "## Changelog" > CHANGELOG.md
           echo "" >> CHANGELOG.md
-          echo "- Release version: ${{ github.ref }}" >> CHANGELOG.md
+          echo "- Commit: ${{ github.sha }}" >> CHANGELOG.md
           echo "- Build date: $(date)" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
           echo "### Changes" >> CHANGELOG.md
@@ -74,7 +72,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ github.ref }}
+          tag: ${{ github.sha }}  # Use the commit SHA as the tag
           files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -82,7 +80,7 @@ jobs:
       - name: Upload changelog
         uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ github.ref }}
+          tag: ${{ github.sha }}  # Use the commit SHA as the tag
           files: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
