@@ -8,6 +8,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+torch = { version = "^2.4.1", source = "pytorch" }
+torchvision = { version = "^0.15.1", source = "pytorch" }
+torchaudio = { version = "^2.0.1", source = "pytorch" }
 beautifulsoup4 = "^4.12.3"
 colorama = "^0.4.6"
 diffusers = "^0.30.3"
@@ -19,7 +22,6 @@ PyQt6 = "^6.7.1"
 PyQt6-sip = "^13.8.0"
 python-dotenv = "^1.0.1"
 sentry-sdk = "^2.14.0"
-torch = { version = "2.4.1", source = "pytorch" }
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "^2.4.8"
@@ -28,6 +30,7 @@ Nuitka = "^2.4.8"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+
 [[tool.poetry.source]]
 name = "pytorch"
-url = "https://download.pytorch.org/whl/cu124/torch_stable.html"
+url = "https://download.pytorch.org/whl/cu124"
